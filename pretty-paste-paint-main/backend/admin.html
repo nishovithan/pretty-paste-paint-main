@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cake OZ — Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e0a06;
+      --surface: #16100a;
+      --surface2: #1f1509;
+      --border: #2e1e0d;
+      --gold: #c89b4a;
+      --gold-light: #e8b84b;
+      --gold-dim: #7a5c28;
+      --cream: #f5e0c3;
+      --cream-dim: #b09070;
+      --red: #c44040;
+      --green: #4a9a6a;
+      --blue: #4a7ac8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 240px;
+      min-height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-logo {
+      padding: 2rem 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-logo h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 1px;
+    }
+    .sidebar-logo span {
+      font-size: 11px;
+      color: var(--cream-dim);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .nav-section {
+      padding: 1.5rem 1rem;
+      flex: 1;
+    }
+    .nav-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      padding: 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--cream-dim);
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      margin-bottom: 2px;
+      border: 1px solid transparent;
+    }
+    .nav-item:hover { background: var(--surface2); color: var(--cream); }
+    .nav-item.active {
+      background: linear-gradient(135deg, #2e1e0d, #3a2510);
+      color: var(--gold);
+      border-color: var(--border);
+    }
+    .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+    .nav-spacer { margin-top: 1.5rem; }
+
+    .sidebar-footer {
+      padding: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .admin-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .admin-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8a5c20);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .admin-info p { font-size: 13px; font-weight: 600; color: var(--cream); }
+    .admin-info span { font-size: 11px; color: var(--gold); }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: 240px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0; z-index: 50;
+    }
+    .topbar-title h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--cream);
+    }
+    .topbar-title p { font-size: 12px; color: var(--cream-dim); margin-top: 2px; }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #1a1008;
+    }
+    .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 4px 16px #c89b4a44; }
+    .btn-outline {
+      background: transparent;
+      color: var(--cream-dim);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--gold-dim); color: var(--cream); }
+    .btn-red {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid #c4404044;
+    }
+    .btn-red:hover { background: #c4404022; }
+    .btn-sm { padding: 6px 14px; font-size: 12px; }
+
+    /* ── CONTENT ── */
+    .content {
+      padding: 2rem;
+      flex: 1;
+    }
+
+    /* ── TABS ── */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── STAT CARDS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 60px; height: 60px;
+      border-radius: 0 16px 0 60px;
+      opacity: 0.08;
+    }
+    .stat-card.gold::before { background: var(--gold); }
+    .stat-card.green::before { background: var(--green); }
+    .stat-card.blue::before { background: var(--blue); }
+    .stat-card.red::before { background: var(--red); }
+
+    .stat-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 0.75rem; }
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1;
+    }
+    .stat-sub { font-size: 12px; color: var(--green); margin-top: 6px; }
+    .stat-icon { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 22px; opacity: 0.5; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--cream);
+    }
+    .section-sub { font-size: 12px; color: var(--cream-dim); margin-top: 2px; }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 12px 16px;
+      text-align: left;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--surface2); }
+    td {
+      padding: 14px 16px;
+      font-size: 14px;
+      color: var(--cream);
+      vertical-align: middle;
+    }
+
+    .cake-cell { display: flex; align-items: center; gap: 12px; }
+    .cake-thumb {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cake-name { font-weight: 600; font-size: 14px; }
+    .cake-desc { font-size: 12px; color: var(--cream-dim); margin-top: 2px; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .badge-active { background: #4a9a6a22; color: var(--green); border: 1px solid #4a9a6a44; }
+    .badge-pending { background: #c89b4a22; color: var(--gold); border: 1px solid #c89b4a44; }
+    .badge-done { background: #4a7ac822; color: var(--blue); border: 1px solid #4a7ac844; }
+    .badge-cancelled { background: #c4404022; color: var(--red); border: 1px solid #c4404044; }
+
+    .actions { display: flex; gap: 6px; }
+
+    /* ── CAKE MANAGEMENT ── */
+    .cakes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .cake-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .cake-card:hover { border-color: var(--gold-dim); }
+    .cake-card-img {
+      height: 140px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 60px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cake-card-body { padding: 1rem; }
+    .cake-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .cake-card-desc { font-size: 12px; color: var(--cream-dim); margin-bottom: 10px; line-height: 1.5; }
+    .cake-card-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .cake-card-footer {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 6px;
+    }
+
+    /* ── ADD CAKE MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 480px;
+      max-width: 90vw;
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .modal-close {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--cream-dim);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--gold); }
+    .form-group select option { background: var(--surface2); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem; }
+
+    /* ── ORDERS ── */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--cream-dim);
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--surface2);
+      border-color: var(--gold-dim);
+      color: var(--gold);
+    }
+
+    /* ── SETTINGS ── */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .settings-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .settings-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--gold);
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-label { font-size: 13px; }
+    .setting-sub { font-size: 11px; color: var(--cream-dim); margin-top: 2px; }
+    .toggle {
+      width: 42px; height: 24px;
+      border-radius: 12px;
+      background: var(--border);
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: none;
+    }
+    .toggle::after {
+      content: '';
+      position: absolute;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: white;
+      top: 3px; left: 3px;
+      transition: left 0.2s;
+    }
+    .toggle.on { background: var(--gold); }
+    .toggle.on::after { left: 21px; }
+
+    /* ── ANALYTICS CHART ── */
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    .chart-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+    .chart-sub { font-size: 12px; color: var(--cream-dim); margin-top: 2px; }
+
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 140px;
+    }
+    .bar-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .bar {
+      width: 100%;
+      border-radius: 6px 6px 0 0;
+      background: linear-gradient(to top, var(--gold-dim), var(--gold));
+      min-height: 4px;
+      transition: opacity 0.2s;
+    }
+    .bar:hover { opacity: 0.8; }
+    .bar-label { font-size: 11px; color: var(--cream-dim); }
+    .bar-val { font-size: 11px; color: var(--gold); font-weight: 600; }
+
+    /* ── NOTIFICATION DOT ── */
+    .notif-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      display: inline-block;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align: center;
+      padding: 3rem;
+      color: var(--cream-dim);
+    }
+    .empty .e-icon { font-size: 48px; margin-bottom: 1rem; opacity: 0.4; }
+    .empty p { font-size: 14px; }
+
+    /* ── TOAST ── */
+    .toast-wrap {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 13px;
+      min-width: 220px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: fadeIn 0.3s ease;
+    }
+    .toast.success { border-left: 3px solid var(--green); }
+    .toast.error { border-left: 3px solid var(--red); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-240px); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .cakes-grid { grid-template-columns: 1fr 1fr; }
+      .settings-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .cakes-grid { grid-template-columns: 1fr; }
+    }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--cream);
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    @media (max-width: 900px) { .menu-toggle { display: block; } }
+
+    /* ── LOGIN SCREEN ── */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .login-overlay.hidden {
+      display: none;
+    }
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      width: 420px;
+      max-width: 90vw;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    .login-logo {
+      font-size: 48px;
+      margin-bottom: 1rem;
+    }
+    .login-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .login-subtitle {
+      font-size: 13px;
+      color: var(--cream-dim);
+      margin-bottom: 2rem;
+    }
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .login-form input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .login-form input:focus {
+      border-color: var(--gold);
+    }
+    .login-form input::placeholder {
+      color: var(--cream-dim);
+    }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #1a1008;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px #c89b4a44;
+    }
+    .login-btn:active {
+      transform: translateY(0);
+    }
+    .login-error {
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 0.5rem;
+      display: none;
+      text-align: left;
+    }
+    .login-error.show {
+      display: block;
+    }
+    .login-footer {
+      margin-top: 1.5rem;
+      font-size: 12px;
+      color: var(--cream-dim);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">🎂</div>
+    <div class="login-title">Cake OZ Admin</div>
+    <div class="login-subtitle">Sign in to manage your cakes</div>
+    
+    <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+      <input 
+        type="email" 
+        id="loginEmail" 
+        placeholder="Email address" 
+        value="admin@cakeoz.com"
+        required
+      />
+      <input 
+        type="password" 
+        id="loginPassword" 
+        placeholder="Password" 
+        value="cakeoz@2024"
+        required
+      />
+      <button type="submit" class="login-btn">Sign In</button>
+      <div class="login-error" id="loginError"></div>
+    </form>
+
+    <div class="login-footer">
+      <strong>Demo Credentials:</strong><br>
+      📧 admin@cakeoz.com<br>
+      🔑 cakeoz@2024
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1>🎂 Cake OZ</h1>
+    <span>Admin Panel</span>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Main</div>
+    <div class="nav-item active" onclick="switchTab('dashboard', this)">
+      <span class="icon">📊</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="switchTab('orders', this)">
+      <span class="icon">📦</span> Orders
+      <span class="notif-dot"></span>
+    </div>
+    <div class="nav-item" onclick="switchTab('cakes', this)">
+      <span class="icon">🍰</span> Cakes
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-label">System</div>
+    <div class="nav-item" onclick="switchTab('customers', this)">
+      <span class="icon">👥</span> Customers
+    </div>
+    <div class="nav-item" onclick="switchTab('settings', this)">
+      <span class="icon">⚙️</span> Settings
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="admin-badge">
+      <div class="admin-avatar">👑</div>
+      <div class="admin-info">
+        <p>Admin</p>
+        <span>Super Admin</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+      <div class="topbar-title" id="topbarTitle">
+        <h2>Dashboard</h2>
+        <p>Welcome back, Admin 👋</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" onclick="showToast('Refreshed!', 'success')">↻ Refresh</button>
+      <button class="btn btn-gold" onclick="openModal()">+ Add Cake</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ DASHBOARD TAB ═══ -->
+    <div class="tab-content active" id="tab-dashboard">
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card gold">
+          <div class="stat-icon">💰</div>
+          <div class="stat-label">Total Revenue</div>
+          <div class="stat-value">LKR 84,200</div>
+          <div class="stat-sub">↑ 12% this month</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon">📦</div>
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-value">38</div>
+          <div class="stat-sub">↑ 5 new today</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-icon">🍰</div>
+          <div class="stat-label">Cakes Listed</div>
+          <div class="stat-value">6</div>
+          <div class="stat-sub">All active</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">Customers</div>
+          <div class="stat-value">121</div>
+          <div class="stat-sub">↑ 8 new this week</div>
+        </div>
+      </div>
+
+      <!-- Revenue Chart -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">Weekly Revenue</div>
+            <div class="chart-sub">Orders from Mon – Sun</div>
+          </div>
+          <button class="btn btn-outline btn-sm">View All</button>
+        </div>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+
+      <!-- Recent Orders -->
+      <div class="section-header">
+        <div>
+          <div class="section-title">Recent Orders</div>
+          <div class="section-sub">Latest 5 orders placed</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="switchTab('orders', null)">View All →</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Cake</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="recentOrdersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ ORDERS TAB ═══ -->
+    <div class="tab-content" id="tab-orders">
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterOrders('all', this)">All Orders</button>
+        <button class="filter-btn" onclick="filterOrders('pending', this)">⏳ Pending</button>
+        <button class="filter-btn" onclick="filterOrders('active', this)">🚀 Active</button>
+        <button class="filter-btn" onclick="filterOrders('done', this)">✅ Completed</button>
+        <button class="filter-btn" onclick="filterOrders('cancelled', this)">❌ Cancelled</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Cake</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th>Delivery</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="allOrdersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ CAKES TAB ═══ -->
+    <div class="tab-content" id="tab-cakes">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Cake Menu</div>
+          <div class="section-sub">Manage your cake listings</div>
+        </div>
+        <button class="btn btn-gold" onclick="openModal()">+ Add New Cake</button>
+      </div>
+      <div class="cakes-grid" id="cakesGrid"></div>
+    </div>
+
+    <!-- ═══ CUSTOMERS TAB ═══ -->
+    <div class="tab-content" id="tab-customers">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Customers</div>
+          <div class="section-sub">Registered users & buyers</div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Orders</th>
+              <th>Total Spent</th>
+              <th>Location</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody id="customersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══ SETTINGS TAB ═══ -->
+    <div class="tab-content" id="tab-settings">
+      <div class="settings-grid">
+        <div class="settings-card">
+          <h3>🏪 Store Settings</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Store Name</div>
+              <div class="setting-sub">Cake OZ</div>
+            </div>
+            <button class="btn btn-outline btn-sm">Edit</button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Currency</div>
+              <div class="setting-sub">LKR (Sri Lankan Rupee)</div>
+            </div>
+            <button class="btn btn-outline btn-sm">Change</button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Min. Order Amount</div>
+              <div class="setting-sub">LKR 1,500</div>
+            </div>
+            <button class="btn btn-outline btn-sm">Edit</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3>🔔 Notifications</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">New Order Alert</div>
+              <div class="setting-sub">Email notification on new order</div>
+            </div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Low Stock Alert</div>
+              <div class="setting-sub">Alert when stock is running low</div>
+            </div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Customer Reviews</div>
+              <div class="setting-sub">Notify on new reviews</div>
+            </div>
+            <button class="toggle" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3>🚚 Delivery Settings</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Delivery Enabled</div>
+              <div class="setting-sub">Home delivery available</div>
+            </div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Delivery Fee</div>
+              <div class="setting-sub">LKR 250 flat rate</div>
+            </div>
+            <button class="btn btn-outline btn-sm">Edit</button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Self Pickup</div>
+              <div class="setting-sub">Allow store pickup</div>
+            </div>
+            <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3>🔒 Account</h3>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Change Password</div>
+              <div class="setting-sub">Last changed 30 days ago</div>
+            </div>
+            <button class="btn btn-outline btn-sm">Update</button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Two-Factor Auth</div>
+              <div class="setting-sub">Extra security for login</div>
+            </div>
+            <button class="toggle" onclick="this.classList.toggle('on')"></button>
+          </div>
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">Sign Out</div>
+              <div class="setting-sub">End current session</div>
+            </div>
+            <button class="btn btn-red btn-sm" onclick="showToast('Signed out!', 'error')">Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</main>
+
+<!-- ADD CAKE MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Add New Cake 🎂</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Cake Name</label>
+        <input type="text" id="newName" placeholder="e.g. Oreo Delight" />
+      </div>
+      <div class="form-group">
+        <label>Price (LKR)</label>
+        <input type="number" id="newPrice" placeholder="e.g. 2400" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Short Description</label>
+      <input type="text" id="newDesc" placeholder="e.g. Crunchy oreo with cream layers" />
+    </div>
+    <div class="form-group">
+      <label>Full Details</label>
+      <textarea id="newDetails" rows="3" placeholder="Describe the flavors, ingredients, layers..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Emoji Icon</label>
+      <select id="newEmoji">
+        <option value="🎂">🎂 Birthday Cake</option>
+        <option value="🍰">🍰 Slice</option>
+        <option value="🍫">🍫 Chocolate</option>
+        <option value="🍓">🍓 Strawberry</option>
+        <option value="☕">☕ Coffee</option>
+        <option value="🍮">🍮 Custard</option>
+        <option value="🥧">🥧 Pie</option>
+        <option value="🍨">🍨 Ice Cream</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="addCake()">Add Cake</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+  // ── DATA ──
+  const cakes = [
+    { id: 1, emoji: '🍓', name: 'Strawberry Bliss', price: 'LKR 2,200', desc: 'Fresh strawberries with cream layers', details: 'A light vanilla sponge layered with whipped cream, fresh berries, and berry compote.', status: 'active' },
+    { id: 2, emoji: '🍫', name: 'Black Forest', price: 'LKR 1,980', desc: 'Classic chocolate cherry delight', details: 'Rich chocolate sponge soaked in kirsch, with cherries and dark chocolate shavings.', status: 'active' },
+    { id: 3, emoji: '☕', name: 'Tiramisu', price: 'LKR 2,500', desc: 'Italian coffee-soaked elegance', details: 'Coffee-soaked ladyfingers layered with mascarpone cream, dusted with cocoa.', status: 'active' },
+    { id: 4, emoji: '🎂', name: 'Red Velvet', price: 'LKR 2,300', desc: 'Velvety smooth cream cheese frosting', details: 'Moist red velvet sponge with cream cheese frosting and decorative crumbs.', status: 'active' },
+    { id: 5, emoji: '☕', name: 'Coffee Cake', price: 'LKR 1,800', desc: 'Rich espresso butter cake', details: 'A buttery coffee-flavored cake glazed with espresso syrup.', status: 'active' },
+    { id: 6, emoji: '🍰', name: 'Vanilla Cake', price: 'LKR 2,100', desc: 'Silky smooth vanilla bean perfection', details: 'Classic vanilla cake layered with creamy frosting and whipped cream swirl.', status: 'active' },
+  ];
+
+  const orders = [
+    { id: '#CK-001', customer: 'Ananya R.', cake: 'Red Velvet', qty: 1, total: 'LKR 2,300', delivery: 'Home Delivery', status: 'active', date: 'Apr 28' },
+    { id: '#CK-002', customer: 'Karthik S.', cake: 'Tiramisu', qty: 2, total: 'LKR 5,000', delivery: 'Pickup', status: 'done', date: 'Apr 27' },
+    { id: '#CK-003', customer: 'Deepa M.', cake: 'Strawberry Bliss', qty: 1, total: 'LKR 2,200', delivery: 'Home Delivery', status: 'pending', date: 'Apr 27' },
+    { id: '#CK-004', customer: 'Ravi K.', cake: 'Black Forest', qty: 3, total: 'LKR 5,940', delivery: 'Pickup', status: 'done', date: 'Apr 26' },
+    { id: '#CK-005', customer: 'Priya N.', cake: 'Vanilla Cake', qty: 1, total: 'LKR 2,100', delivery: 'Home Delivery', status: 'cancelled', date: 'Apr 26' },
+    { id: '#CK-006', customer: 'Meena S.', cake: 'Coffee Cake', qty: 2, total: 'LKR 3,600', delivery: 'Pickup', status: 'pending', date: 'Apr 25' },
+    { id: '#CK-007', customer: 'Arun T.', cake: 'Red Velvet', qty: 1, total: 'LKR 2,300', delivery: 'Home Delivery', status: 'active', date: 'Apr 25' },
+    { id: '#CK-008', customer: 'Latha V.', cake: 'Tiramisu', qty: 1, total: 'LKR 2,500', delivery: 'Pickup', status: 'done', date: 'Apr 24' },
+  ];
+
+  const customers = [
+    { name: 'Ananya R.', email: 'ananya@email.com', orders: 4, spent: 'LKR 9,200', location: 'Batticaloa', joined: 'Jan 2025' },
+    { name: 'Karthik S.', email: 'karthik@email.com', orders: 7, spent: 'LKR 16,500', location: 'Kallady', joined: 'Feb 2025' },
+    { name: 'Deepa M.', email: 'deepa@email.com', orders: 3, spent: 'LKR 6,600', location: 'Arasady', joined: 'Mar 2025' },
+    { name: 'Ravi K.', email: 'ravi@email.com', orders: 5, spent: 'LKR 11,200', location: 'Colombo', joined: 'Jan 2025' },
+    { name: 'Priya N.', email: 'priyan@email.com', orders: 2, spent: 'LKR 4,300', location: 'Kandy', joined: 'Apr 2025' },
+    { name: 'Meena S.', email: 'meena@email.com', orders: 6, spent: 'LKR 14,100', location: 'Jaffna', joined: 'Feb 2025' },
+  ];
+
+  const weekData = [
+    { day: 'Mon', val: 12400 },
+    { day: 'Tue', val: 8200 },
+    { day: 'Wed', val: 19600 },
+    { day: 'Thu', val: 7300 },
+    { day: 'Fri', val: 22100 },
+    { day: 'Sat', val: 31500 },
+    { day: 'Sun', val: 18800 },
+  ];
+
+  // ── RENDER BAR CHART ──
+  function renderChart() {
+    const chart = document.getElementById('barChart');
+    const max = Math.max(...weekData.map(d => d.val));
+    chart.innerHTML = weekData.map(d => `
+      <div class="bar-wrap">
+        <div class="bar-val">LKR ${(d.val/1000).toFixed(1)}k</div>
+        <div class="bar" style="height:${(d.val/max)*110}px" title="LKR ${d.val.toLocaleString()}"></div>
+        <div class="bar-label">${d.day}</div>
+      </div>
+    `).join('');
+  }
+
+  // ── RENDER RECENT ORDERS ──
+  function renderRecentOrders() {
+    const tbody = document.getElementById('recentOrdersBody');
+    tbody.innerHTML = orders.slice(0, 5).map(o => `
+      <tr>
+        <td><span style="color:var(--gold);font-weight:600;">${o.id}</span></td>
+        <td>${o.customer}</td>
+        <td>${o.cake}</td>
+        <td style="color:var(--gold);">${o.total}</td>
+        <td><span class="badge badge-${o.status}">${capitalize(o.status)}</span></td>
+        <td style="color:var(--cream-dim);">${o.date}</td>
+      </tr>
+    `).join('');
+  }
+
+  // ── RENDER ALL ORDERS ──
+  let currentFilter = 'all';
+  function renderOrders() {
+    const tbody = document.getElementById('allOrdersBody');
+    const list = currentFilter === 'all' ? orders : orders.filter(o => o.status === currentFilter);
+    if (!list.length) { tbody.innerHTML = '<tr><td colspan="8"><div class="empty"><div class="e-icon">📦</div><p>No orders found</p></div></td></tr>'; return; }
+    tbody.innerHTML = list.map(o => `
+      <tr>
+        <td><span style="color:var(--gold);font-weight:600;">${o.id}</span></td>
+        <td>${o.customer}</td>
+        <td>${o.cake}</td>
+        <td>${o.qty}</td>
+        <td style="color:var(--gold);">${o.total}</td>
+        <td style="font-size:12px;color:var(--cream-dim);">${o.delivery}</td>
+        <td><span class="badge badge-${o.status}">${capitalize(o.status)}</span></td>
+        <td>
+          <div class="actions">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Order updated!','success')">✏️</button>
+            <button class="btn btn-red btn-sm" onclick="showToast('Order deleted!','error')">🗑</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function filterOrders(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    renderOrders();
+  }
+
+  // ── RENDER CAKES ──
+  function renderCakes() {
+    const grid = document.getElementById('cakesGrid');
+    grid.innerHTML = cakes.map(c => `
+      <div class="cake-card">
+        <div class="cake-card-img">${c.emoji}</div>
+        <div class="cake-card-body">
+          <div class="cake-card-name">${c.name}</div>
+          <div class="cake-card-desc">${c.desc}</div>
+          <div class="cake-card-price">${c.price}</div>
+        </div>
+        <div class="cake-card-footer">
+          <button class="btn btn-outline btn-sm" style="flex:1" onclick="showToast('Edit mode coming soon!','success')">✏️ Edit</button>
+          <button class="btn btn-red btn-sm" onclick="deleteCake(${c.id})">🗑</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function deleteCake(id) {
+    const i = cakes.findIndex(c => c.id === id);
+    if (i !== -1) { cakes.splice(i, 1); renderCakes(); showToast('Cake removed!', 'error'); }
+  }
+
+  // ── RENDER CUSTOMERS ──
+  function renderCustomers() {
+    const tbody = document.getElementById('customersBody');
+    tbody.innerHTML = customers.map(c => `
+      <tr>
+        <td><strong>${c.name}</strong></td>
+        <td style="color:var(--cream-dim);">${c.email}</td>
+        <td>${c.orders}</td>
+        <td style="color:var(--gold);">${c.spent}</td>
+        <td style="color:var(--cream-dim);">${c.location}</td>
+        <td style="color:var(--cream-dim);">${c.joined}</td>
+      </tr>
+    `).join('');
+  }
+
+  // ── TAB SWITCH ──
+  const tabTitles = {
+    dashboard: { title: 'Dashboard', sub: 'Welcome back, Admin 👋' },
+    orders: { title: 'Orders', sub: 'Manage and track all cake orders' },
+    cakes: { title: 'Cake Menu', sub: 'Add, edit, and remove cakes' },
+    customers: { title: 'Customers', sub: 'View all registered customers' },
+    settings: { title: 'Settings', sub: 'Configure store preferences' },
+  };
+
+  function switchTab(name, navEl) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    if (navEl) navEl.classList.add('active');
+    else {
+      document.querySelectorAll('.nav-item').forEach(n => {
+        if (n.textContent.toLowerCase().includes(name)) n.classList.add('active');
+      });
+    }
+    const t = tabTitles[name];
+    document.querySelector('#topbarTitle h2').textContent = t.title;
+    document.querySelector('#topbarTitle p').textContent = t.sub;
+    if (name === 'orders') renderOrders();
+    if (name === 'cakes') renderCakes();
+    if (name === 'customers') renderCustomers();
+    // close sidebar on mobile
+    document.getElementById('sidebar').classList.remove('open');
+  }
+
+  // ── MODAL ──
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+  function addCake() {
+    const name = document.getElementById('newName').value.trim();
+    const price = document.getElementById('newPrice').value.trim();
+    const desc = document.getElementById('newDesc').value.trim();
+    const details = document.getElementById('newDetails').value.trim();
+    const emoji = document.getElementById('newEmoji').value;
+    if (!name || !price) { showToast('Please fill required fields!', 'error'); return; }
+    cakes.push({ id: Date.now(), emoji, name, price: 'LKR ' + Number(price).toLocaleString(), desc: desc || 'Premium cake', details: details || desc || 'A delicious cake', status: 'active' });
+    closeModal();
+    showToast(`"${name}" added successfully!`, 'success');
+    renderCakes();
+    ['newName','newPrice','newDesc','newDetails'].forEach(id => document.getElementById(id).value = '');
+  }
+
+  // ── TOAST ──
+  function showToast(msg, type = 'success') {
+    const wrap = document.getElementById('toastWrap');
+    const t = document.createElement('div');
+    t.className = `toast ${type}`;
+    t.innerHTML = `<span>${type === 'success' ? '✅' : '❌'}</span> ${msg}`;
+    wrap.appendChild(t);
+    setTimeout(() => t.remove(), 3000);
+  }
+
+  // ── HELPERS ──
+  function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
+
+  // ── LOGIN HANDLER ──
+  function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errorEl = document.getElementById('loginError');
+    
+    // Valid credentials
+    const validEmail = 'admin@cakeoz.com';
+    const validPassword = 'cakeoz@2024';
+    
+    if (email === validEmail && password === validPassword) {
+      // Store login in session
+      sessionStorage.setItem('adminLoggedIn', 'true');
+      // Hide login overlay
+      document.getElementById('loginOverlay').classList.add('hidden');
+      showToast('Welcome back, Admin! 👑', 'success');
+      // Initialize dashboard
+      initDashboard();
+    } else {
+      errorEl.textContent = '❌ Invalid email or password';
+      errorEl.classList.add('show');
+      document.getElementById('loginPassword').value = '';
+      setTimeout(() => {
+        errorEl.classList.remove('show');
+      }, 3000);
+    }
+  }
+
+  // ── CHECK LOGIN STATUS ──
+  function checkLoginStatus() {
+    const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+    const loginOverlay = document.getElementById('loginOverlay');
+    
+    if (isLoggedIn === 'true') {
+      loginOverlay.classList.add('hidden');
+      initDashboard();
+    } else {
+      loginOverlay.classList.remove('hidden');
+    }
+  }
+
+  // ── INIT DASHBOARD ──
+  function initDashboard() {
+    renderChart();
+    renderRecentOrders();
+    renderCakes();
+    renderOrders();
+    renderCustomers();
+  }
+
+  // ── INIT ──
+  checkLoginStatus();
+</script>
+</body>
+</html>

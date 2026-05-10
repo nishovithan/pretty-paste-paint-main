@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 15% 6%;
+    --foreground: 36 33% 90%;
+
+    --card: 30 12% 10%;
+    --card-foreground: 36 33% 90%;
+
+    --popover: 30 12% 10%;
+    --popover-foreground: 36 33% 90%;
+
+    --primary: 28 52% 65%;
+    --primary-foreground: 30 15% 6%;
+
+    --secondary: 30 12% 14%;
+    --secondary-foreground: 36 33% 90%;
+
+    --muted: 30 10% 16%;
+    --muted-foreground: 30 15% 55%;
+
+    --accent: 28 52% 65%;
+    --accent-foreground: 30 15% 6%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 30 15% 18%;
+    --input: 30 15% 18%;
+    --ring: 28 52% 65%;
+
+    --radius: 0.75rem;
+
+    --gold: 43 80% 55%;
+    --gold-foreground: 30 15% 6%;
+    --warm: 28 52% 65%;
+    --warm-light: 30 40% 80%;
+    --cream: 36 33% 90%;
+
+    --gradient-hero: linear-gradient(180deg, hsla(30, 15%, 6%, 0.3) 0%, hsla(30, 15%, 6%, 0.85) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(28, 52%, 65%) 0%, hsl(43, 80%, 55%) 100%);
+    --gradient-card: linear-gradient(145deg, hsla(30, 12%, 12%, 0.8) 0%, hsla(30, 12%, 8%, 0.9) 100%);
+
+    --shadow-warm: 0 10px 40px -10px hsla(28, 52%, 65%, 0.3);
+    --shadow-glow: 0 0 60px -15px hsla(28, 52%, 65%, 0.4);
+    --shadow-card: 0 20px 50px -15px hsla(0, 0%, 0%, 0.5);
+
+    --font-display: 'Playfair Display', serif;
+    --font-elegant: 'Cormorant Garamond', serif;
+    --font-body: 'Outfit', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-elegant {
+    font-family: var(--font-elegant);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .text-gradient-warm {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .bg-gradient-warm {
+    background: var(--gradient-warm);
+  }
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+  .shadow-warm {
+    box-shadow: var(--shadow-warm);
+  }
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 3px;
+}

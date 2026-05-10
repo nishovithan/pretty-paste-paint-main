@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Cake Inquiry - CakeOZ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, hsl(30, 12%, 14%), #000000);
+            color: #fff;
+        }
+
+        .inquiry-container {
+            background: rgba(17, 17, 22, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(232, 197, 165, 0.4);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+            padding: 40px;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .logo-area {
+            margin-bottom: 20px;
+        }
+
+        .logo-area img {
+            width: 70px;
+            border-radius: 50%;
+        }
+
+        .inquiry-container h2 {
+            font-size: 28px;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #d4a574, #f4c542);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .inquiry-container p.subtitle {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            text-align: left;
+            font-size: 13px;
+            font-weight: bold;
+            color: #e2b08a;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin: 22px 0 10px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(226, 176, 138, 0.3);
+        }
+
+        .input-group {
+            position: relative;
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        .input-group i {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            color: #e2b08a;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .input-group.textarea-group i {
+            top: 16px;
+            transform: none;
+        }
+
+        .input-group input,
+        .input-group textarea,
+        .input-group select {
+            width: 100%;
+            padding: 12px 12px 12px 38px;
+            border-radius: 8px;
+            border: 1px solid rgba(226, 176, 138, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .input-group input::placeholder,
+        .input-group textarea::placeholder {
+            color: rgba(226, 176, 138, 0.7);
+        }
+
+        .input-group select {
+            appearance: none;
+            -webkit-appearance: none;
+            color: rgba(226, 176, 138, 0.9);
+        }
+
+        .input-group select option {
+            background: #2c2c3e;
+            color: #fff;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus,
+        .input-group select:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(226, 176, 138, 0.6);
+            border-color: #e2b08a;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-row .input-group {
+            flex: 1;
+        }
+
+        .option-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .option-group label {
+            flex: 1 1 auto;
+            min-width: 100px;
+            border: 1px solid rgba(226, 176, 138, 0.5);
+            border-radius: 8px;
+            padding: 9px 12px;
+            cursor: pointer;
+            color: #e2b08a;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: 0.2s;
+        }
+
+        .option-group label:hover {
+            background: rgba(226, 176, 138, 0.2);
+            border-color: #e2b08a;
+        }
+
+        .option-group input[type="radio"],
+        .option-group input[type="checkbox"] {
+            accent-color: #e2b08a;
+            width: 15px;
+            height: 15px;
+        }
+
+        /* ========== PHOTO UPLOAD SECTION ========== */
+        .file-upload {
+            border: 2px dashed rgba(226, 176, 138, 0.5);
+            border-radius: 10px;
+            padding: 24px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            margin: 10px 0;
+            color: rgba(226, 176, 138, 0.8);
+            font-size: 13px;
+        }
+
+        .file-upload:hover {
+            background: rgba(226, 176, 138, 0.08);
+            border-color: #e2b08a;
+        }
+
+        .file-upload i.upload-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+            color: #e2b08a;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        /* Photo Preview Box */
+        .photo-preview-box {
+            display: none;
+            margin: 12px 0;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(226, 176, 138, 0.5);
+            background: rgba(0,0,0,0.3);
+        }
+
+        .photo-preview-box img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .photo-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(226, 176, 138, 0.1);
+            border-bottom: 1px solid rgba(226, 176, 138, 0.2);
+        }
+
+        .photo-preview-header span {
+            font-size: 12px;
+            color: #e2b08a;
+            font-weight: bold;
+        }
+
+        .remove-photo-btn {
+            background: rgba(255, 80, 80, 0.2);
+            border: 1px solid rgba(255, 80, 80, 0.5);
+            color: #ff6b6b;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .remove-photo-btn:hover {
+            background: rgba(255, 80, 80, 0.4);
+            color: #fff;
+        }
+
+        /* Multiple Photos Grid */
+        .multi-photo-grid {
+            display: none;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .photo-thumb {
+            position: relative;
+            width: calc(33.33% - 6px);
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(226, 176, 138, 0.4);
+        }
+
+        .photo-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-thumb .remove-thumb {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.7);
+            color: #ff6b6b;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .photo-thumb .remove-thumb:hover {
+            background: rgba(255, 80, 80, 0.8);
+            color: #fff;
+        }
+
+        .add-more-btn {
+            display: none;
+            width: 100%;
+            padding: 10px;
+            background: rgba(226, 176, 138, 0.1);
+            border: 1px dashed rgba(226, 176, 138, 0.5);
+            border-radius: 8px;
+            color: #e2b08a;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 6px;
+            transition: 0.2s;
+        }
+
+        .add-more-btn:hover {
+            background: rgba(226, 176, 138, 0.2);
+        }
+
+        /* ========================================== */
+
+        .submit-btn {
+            margin-top: 28px;
+            padding: 15px 45px;
+            background: linear-gradient(135deg, hsl(28, 52%, 65%), hsl(43, 80%, 55%));
+            border: none;
+            border-radius: 30px;
+            color: #1e0f06;
+            font-weight: bold;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #fff;
+            color: #422311;
+            transform: translateY(-4px);
+        }
+
+        .back-link {
+            margin-top: 18px;
+            display: block;
+            color: rgba(226, 176, 138, 0.8);
+            font-size: 13px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        .success-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .success-popup.show {
+            display: flex;
+        }
+
+        .popup-box {
+            background: rgba(40, 30, 20, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2b08a;
+            border-radius: 20px;
+            padding: 40px 50px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .popup-box i {
+            font-size: 50px;
+            color: #e2b08a;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .popup-box h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .popup-box p {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .popup-box button {
+            padding: 10px 30px;
+            background: #e2b08a;
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="inquiry-container">
+
+    <div class="logo-area">
+        <img src="620cf8fb-2508-496f-877a-aafc384857b2.png" alt="CakeOZ Logo">
+    </div>
+
+    <h2>🎂 Custom Cake Inquiry</h2>
+    <p class="subtitle">உங்கள் dream cake-ஐ describe பண்ணுங்க, நாங்க ready பண்றோம்!</p>
+
+    <!-- SECTION 1: CUSTOMER DETAILS -->
+    <div class="section-title"><i class="fa fa-user" style="margin-right:6px"></i>Customer Details</div>
+
+    <div class="input-group">
+        <i class="fa fa-user"></i>
+        <input type="text" placeholder="Your Full Name" required>
+    </div>
+
+    <div class="input-row">
+        <div class="input-group">
+            <i class="fa fa-phone"></i>
+            <input type="tel" placeholder="Phone Number" required>
+        </div>
+        <div class="input-group">
+            <i class="fa fa-envelope"></i>
+            <input type="email" placeholder="Email Address">
+        </div>
+    </div>
+
+    <!-- SECTION 2: CAKE DETAILS -->
+    <div class="section-title"><i class="fa fa-cake-candles" style="margin-right:6px"></i>Cake Details</div>
+
+    <div class="input-group">
+        <i class="fa fa-ice-cream"></i>
+        <select>
+            <option value="" disabled selected>Select Cake Flavor</option>
+            <option>Chocolate</option>
+            <option>Vanilla</option>
+            <option>Red Velvet</option>
+            <option>Strawberry</option>
+            <option>Black Forest</option>
+            <option>Coffee / Mocha</option>
+            <option>Tiramisu</option>
+            <option>Butterscotch</option>
+            <option>Lemon</option>
+            <option>Other (mention in notes)</option>
+        </select>
+    </div>
+
+    <p style="text-align:left; font-size:13px; color:rgba(255,255,255,0.6); margin: 10px 0 6px 0;">Cake Weight / Size</p>
+    <div class="option-group" id="weightOptions">
+        <label><input type="radio" name="size" value="0.5"> <span>0.5 kg</span></label>
+        <label><input type="radio" name="size" value="1"> <span>1 kg</span></label>
+        <label><input type="radio" name="size" value="1.5"> <span>1.5 kg</span></label>
+        <label><input type="radio" name="size" value="2"> <span>2 kg</span></label>
+        <label><input type="radio" name="size" value="3+"> <span>3 kg+</span></label>
+        <label><input type="radio" name="size" value="custom" id="sizeCustomRadio"> <span>Other (custom)</span></label>
+    </div>
+
+    <div class="input-group" id="customWeightGroup" style="display:none;">
+        <i class="fa fa-weight-scale"></i>
+        <input type="text" id="customWeight" placeholder="Enter custom weight (e.g. 2.75 kg)">
+    </div>
+
+    <div class="input-row">
+        <div class="input-group">
+            <i class="fa fa-layer-group"></i>
+            <select>
+                <option value="" disabled selected>Layers</option>
+                <option>1 Layer</option>
+                <option>2 Layers</option>
+                <option>3 Layers</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <i class="fa fa-shapes"></i>
+            <select id="cakeShape" onchange="toggleCustomShape()">
+                <option value="" disabled selected>Cake Shape</option>
+                <option value="Round">Round</option>
+                <option value="Square">Square</option>
+                <option value="Heart">Heart</option>
+                <option value="Rectangle">Rectangle</option>
+                <option value="Custom">Custom Shape</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="input-group" id="customShapeGroup" style="display:none;">
+        <i class="fa fa-pencil-alt"></i>
+        <input type="text" id="customShapeInput" placeholder="Enter custom shape (e.g. Star, Oval, Tiered)">
+    </div>
+
+    <!-- SECTION 3: DESIGN -->
+    <div class="section-title"><i class="fa fa-palette" style="margin-right:6px"></i>Design & Decoration</div>
+
+    <div class="input-group">
+        <i class="fa fa-star"></i>
+        <select>
+            <option value="" disabled selected>Frosting / Topping Type</option>
+            <option>Buttercream</option>
+            <option>Fondant</option>
+            <option>Whipped Cream</option>
+            <option>Chocolate Ganache</option>
+            <option>Cream Cheese Frosting</option>
+            <option>No Frosting</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <i class="fa fa-droplet"></i>
+        <input type="text" placeholder="Color Theme (e.g. Pink & Gold, Blue & White)">
+    </div>
+
+    <div class="input-group">
+        <i class="fa fa-pen"></i>
+        <input type="text" placeholder="Message on Cake (e.g. Happy Birthday Priya 🎉)">
+    </div>
+
+    <p style="text-align:left; font-size:13px; color:rgba(255,255,255,0.6); margin: 10px 0 6px 0;">Decorations Needed</p>
+    <div class="option-group">
+        <label><input type="checkbox"> <span>Flowers</span></label>
+        <label><input type="checkbox"> <span>Candles</span></label>
+        <label><input type="checkbox"> <span>Sprinkles</span></label>
+        <label><input type="checkbox"> <span>Edible Image</span></label>
+        <label><input type="checkbox"> <span>Figurines</span></label>
+        <label><input type="checkbox"> <span>Drip Effect</span></label>
+    </div>
+
+    <!-- SECTION 4: REFERENCE PHOTO ✅ UPGRADED -->
+    <div class="section-title"><i class="fa fa-image" style="margin-right:6px"></i>Reference Photo</div>
+
+    <!-- Upload Box (shown when no photo selected) -->
+    <div class="file-upload" id="uploadBox" onclick="document.getElementById('refPhoto').click()">
+        <i class="fa fa-cloud-arrow-up upload-icon"></i>
+        <strong style="display:block; margin-bottom:4px; font-size:14px; color:#e2b08a;">📸 Add Your Cake Photo</strong>
+        <span>Click here to open your Gallery and pick a photo</span><br>
+        <small style="opacity:0.6; margin-top:4px; display:block;">JPG, PNG accepted • Max 5MB</small>
+        <input type="file" id="refPhoto" accept="image/*" multiple onchange="handlePhotoUpload(this)">
+    </div>
+
+    <!-- Single Photo Preview (shown after selecting 1 photo) -->
+    <div class="photo-preview-box" id="photoPreviewBox">
+        <div class="photo-preview-header">
+            <span><i class="fa fa-check-circle" style="color:#6dcc6d; margin-right:5px"></i>Photo Added!</span>
+            <button class="remove-photo-btn" onclick="removeAllPhotos()">
+                <i class="fa fa-trash"></i> Remove
+            </button>
+        </div>
+        <img id="previewImg" src="" alt="Reference Photo Preview">
+    </div>
+
+    <!-- Multiple Photos Grid (shown for 2+ photos) -->
+    <div class="multi-photo-grid" id="multiPhotoGrid"></div>
+
+    <!-- Add More Photos Button -->
+    <button class="add-more-btn" id="addMoreBtn" onclick="document.getElementById('refPhotoMore').click()">
+        <i class="fa fa-plus" style="margin-right:6px"></i>Add More Photos
+        <input type="file" id="refPhotoMore" accept="image/*" multiple style="display:none" onchange="addMorePhotos(this)">
+    </button>
+
+    <!-- SECTION 5: DELIVERY -->
+    <div class="section-title"><i class="fa fa-truck" style="margin-right:6px"></i>Delivery Info</div>
+
+    <div class="input-group">
+        <i class="fa fa-calendar"></i>
+        <input type="date" id="deliveryDate">
+    </div>
+
+    <p style="text-align:left; font-size:13px; color:rgba(255,255,255,0.6); margin: 10px 0 6px 0;">Delivery or Pickup?</p>
+    <div class="option-group">
+        <label><input type="radio" name="delivery"> <span>🚚 Home Delivery</span></label>
+        <label><input type="radio" name="delivery"> <span>🏪 Pickup from Store</span></label>
+    </div>
+
+    <!-- SECTION 6: SPECIAL NOTES -->
+    <div class="section-title"><i class="fa fa-note-sticky" style="margin-right:6px"></i>Special Instructions</div>
+
+    <div class="input-group textarea-group">
+        <i class="fa fa-comment"></i>
+        <textarea placeholder="Any allergies, dietary requirements, or special requests? (e.g. No nuts, Eggless cake, Diabetic-friendly)"></textarea>
+    </div>
+
+    <!-- SUBMIT -->
+    <button class="submit-btn" onclick="submitInquiry()">
+        <i class="fa fa-paper-plane" style="margin-right:8px"></i>Submit Inquiry
+    </button>
+
+    <a href="/" class="back-link">← Back to Menu</a>
+
+</div>
+
+<!-- SUCCESS POPUP -->
+<div class="success-popup" id="successPopup">
+    <div class="popup-box">
+        <i class="fa fa-circle-check"></i>
+        <h3>Inquiry Submitted! 🎉</h3>
+        <p>We'll contact you within 24 hours<br>to confirm your custom cake order.</p>
+        <button onclick="closeSuccessPopup()">OK, Got It!</button>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('deliveryDate').setAttribute('min', today);
+
+        // All uploaded photos stored here
+        let uploadedPhotos = [];
+
+    // ✅ Handle first photo upload
+    function handlePhotoUpload(input) {
+        if (!input.files || input.files.length === 0) return;
+
+        sampleReference = null;
+
+        // Add new files to array
+        Array.from(input.files).forEach(file => {
+            if (file.size > 5 * 1024 * 1024) {
+                alert(`"${file.name}" is too large! Max size is 5MB.`);
+                return;
+            }
+            uploadedPhotos.push(file);
+        });
+
+        renderPhotos();
+    }
+
+    // ✅ Handle "Add More" button
+    function addMorePhotos(input) {
+        if (!input.files || input.files.length === 0) return;
+
+        sampleReference = null;
+
+        Array.from(input.files).forEach(file => {
+            if (file.size > 5 * 1024 * 1024) {
+                alert(`"${file.name}" is too large! Max size is 5MB.`);
+                return;
+            }
+            uploadedPhotos.push(file);
+        });
+        renderPhotos();
+    }
+
+    // ✅ Remove a single photo by index
+    function removePhoto(index) {
+        uploadedPhotos.splice(index, 1);
+        renderPhotos();
+    }
+
+    // ✅ Remove all photos
+    function removeAllPhotos() {
+        uploadedPhotos = [];
+        renderPhotos();
+    }
+
+    // ✅ Main render function - updates the UI based on uploadedPhotos array
+    function renderPhotos() {
+        const uploadBox = document.getElementById('uploadBox');
+        const previewBox = document.getElementById('photoPreviewBox');
+        const multiGrid = document.getElementById('multiPhotoGrid');
+        const addMoreBtn = document.getElementById('addMoreBtn');
+        const previewImg = document.getElementById('previewImg');
+
+        if (sampleReference && uploadedPhotos.length === 0) {
+            // Sample chosen from gallery
+            uploadBox.style.display = 'none';
+            previewBox.style.display = 'block';
+            multiGrid.style.display = 'none';
+            addMoreBtn.style.display = 'block';
+            previewImg.src = sampleReference;
+
+        } else if (uploadedPhotos.length === 0) {
+            // No photos — show upload box
+            uploadBox.style.display = 'block';
+            previewBox.style.display = 'none';
+            multiGrid.style.display = 'none';
+            multiGrid.innerHTML = '';
+            addMoreBtn.style.display = 'none';
+
+        } else if (uploadedPhotos.length === 1) {
+            // 1 photo — show single preview
+            uploadBox.style.display = 'none';
+            previewBox.style.display = 'block';
+            multiGrid.style.display = 'none';
+            addMoreBtn.style.display = 'block';
+
+            const reader = new FileReader();
+            reader.onload = e => previewImg.src = e.target.result;
+            reader.readAsDataURL(uploadedPhotos[0]);
+
+        } else {
+            // 2+ photos — show grid
+            uploadBox.style.display = 'none';
+            previewBox.style.display = 'none';
+            multiGrid.style.display = 'flex';
+            addMoreBtn.style.display = 'block';
+
+            multiGrid.innerHTML = '';
+            uploadedPhotos.forEach((file, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'photo-thumb';
+
+                const img = document.createElement('img');
+                const reader = new FileReader();
+                reader.onload = e => img.src = e.target.result;
+                reader.readAsDataURL(file);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-thumb';
+                removeBtn.innerHTML = '✕';
+                removeBtn.onclick = () => removePhoto(index);
+
+                thumb.appendChild(img);
+                thumb.appendChild(removeBtn);
+                multiGrid.appendChild(thumb);
+            });
+        }
+    }
+
+    function submitInquiry() {
+        document.getElementById('successPopup').classList.add('show');
+    }
+
+    function closeSuccessPopup() {
+        document.getElementById('successPopup').classList.remove('show');
+        // Redirect to home/menu after submission
+        window.location.href = '/';
+    }
+
+    function toggleCustomWeight() {
+        const customGroup = document.getElementById('customWeightGroup');
+        const customRadio = document.getElementById('sizeCustomRadio');
+        customGroup.style.display = customRadio.checked ? 'block' : 'none';
+    }
+
+    function toggleCustomShape() {
+        const shapeSelect = document.getElementById('cakeShape');
+        const customShape = document.getElementById('customShapeGroup');
+        customShape.style.display = shapeSelect.value === 'Custom' ? 'block' : 'none';
+    }
+
+    document.querySelectorAll('input[name="size"]').forEach(el => {
+        el.addEventListener('change', toggleCustomWeight);
+    });
+    });
+</script>
+
+</body>
+</html>

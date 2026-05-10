@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About - Cake OZ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5e0c3;
+      color: #1a1008;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2.5rem;
+      background: #f5e0c3;
+      border-bottom: 1px solid #e0c9a8;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1008;
+      text-decoration: none;
+    }
+    .back-btn {
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: 1.5px solid #1a1008;
+      background: transparent;
+      color: #1a1008;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 1px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .back-btn:hover { background: #1a100811; }
+
+    /* HERO */
+    .hero-section {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      border-bottom: 1px solid #e0c9a8;
+    }
+    .hero-tag {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: #8a6a30;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      color: #1a1008;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    .hero-title span { color: #b07d2a; font-style: italic; }
+    .hero-desc {
+      font-size: 15px;
+      color: #6a4a20;
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* BAKER */
+    .baker-section { padding: 3rem 2rem; border-bottom: 1px solid #e0c9a8; }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #8a6a30;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .baker-card {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      max-width: 620px;
+      margin: 0 auto;
+      background: #1a1008;
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .baker-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c89b4a, #8a5c20);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+    .baker-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #f5e0c3;
+      margin-bottom: 4px;
+    }
+    .baker-role {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c89b4a;
+      margin-bottom: 12px;
+    }
+    .baker-bio { font-size: 14px; color: #a08060; line-height: 1.8; }
+    .baker-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .baker-tag {
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid #3a2a10;
+      color: #c89b4a;
+      background: #231508;
+      letter-spacing: 1px;
+    }
+
+    /* REVIEWS */
+    .reviews-section { padding: 3rem 2rem 5rem; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .review-card {
+      background: #1a1008;
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .stars { display: flex; gap: 3px; margin-bottom: 10px; }
+    .star {
+      width: 14px;
+      height: 14px;
+      background: #c89b4a;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+    .review-text {
+      font-size: 13px;
+      color: #c8a878;
+      line-height: 1.7;
+      margin-bottom: 14px;
+      font-style: italic;
+    }
+    .review-author {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #f5e0c3;
+    }
+    .review-location { font-size: 11px; color: #6a5030; margin-top: 2px; }
+    .quote-mark {
+      font-size: 48px;
+      color: #c89b4a33;
+      line-height: 1;
+      margin-bottom: -10px;
+      font-family: Georgia, serif;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Cake OZ</a>
+    <a href="index.html" class="back-btn">← BACK TO HOME</a>
+  </nav>
+
+  <div class="hero-section">
+    <p class="hero-tag">Our story</p>
+    <h1 class="hero-title">Made with <span>love,</span><br>baked with passion</h1>
+    <p class="hero-desc">Every cake pop tells a story. Cakeoz was born from a simple belief — that every celebration deserves something truly special, handcrafted just for you.</p>
+  </div>
+
+  <div class="baker-section">
+    <p class="section-label">Meet the baker</p>
+    <div class="baker-card">
+      <div class="baker-avatar">🎂</div>
+      <div>
+        <p class="baker-name">Priya Meenakshi</p>
+        <p class="baker-role">Founder & Head Baker</p>
+        <p class="baker-bio">With over 8 years of baking experience, Priya started Cakeoz from her home kitchen with one goal — to make every bite feel like a warm hug. Trained in French pastry arts, she brings both skill and heart to every creation.</p>
+        <div class="baker-tags">
+          <span class="baker-tag">Cake Pops</span>
+          <span class="baker-tag">Custom Cakes</span>
+          <span class="baker-tag">Eggless Specialist</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-section">
+    <p class="section-label">What our customers say</p>
+    <div class="reviews-grid">
+
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <p class="review-text">The cake pops were absolutely stunning. Everyone at the party kept asking where I got them from!</p>
+        <p class="review-author">Ananya R.</p>
+        <p class="review-location">Batticaloa Town</p>
+      </div>
+
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <p class="review-text">Ordered a custom birthday cake — it looked exactly like my vision. Taste was even better than the look!</p>
+        <p class="review-author">Karthik S.</p>
+        <p class="review-location">Kallady</p>
+      </div>
+
+      <div class="review-card">
+        <div class="quote-mark">"</div>
+        <div class="stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+        <p class="review-text">Best eggless cake I've ever had. My kids loved it and I felt good knowing it was made fresh with care.</p>
+        <p class="review-author">Deepa M.</p>
+        <p class="review-location">Arasady</p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
